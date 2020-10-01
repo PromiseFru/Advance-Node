@@ -15,7 +15,7 @@ app.set("view engine", "pug");
 
 app.route("/").get((req, res) => {
   //Change the response to render the Pug template
-  res.render(__dirname + '/view/index');
+  res.render(__dirname + '/views/index');
 });
 
 app.listen(process.env.PORT || 3000, () => {
