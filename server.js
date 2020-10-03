@@ -32,10 +32,19 @@ myDB(async client => {
 
   app.route("/").get((req, res) => {
     res.render('pug', {
+      showLogin: true,
       title: "Connected to Database",
       message: "Please Login"
     });
   });
+
+  app.post("/login", passport.authenticate("local", {failureRedirect: "/"}), (req, res) => {
+    res.redirect("/profile");
+  })
+
+  app.get("/profile", (req, res) => {
+    res.render(__dirname + "views/pug/profile");
+  })
 
   passport.serializeUser((user, done) => {
     done(null, user._id);
