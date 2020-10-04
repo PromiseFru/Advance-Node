@@ -38,11 +38,18 @@ myDB(async client => {
     });
   });
 
+  function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    res.redirect('/');
+  };
+
   app.post("/login", passport.authenticate("local", {failureRedirect: "/"}), (req, res) => {
     res.redirect("/profile");
   })
 
-  app.get("/profile", (req, res) => {
+  app.get("/profile", ensureAuthenticated, (req, res) => {
     res.render(__dirname + "views/pug/profile");
   })
 
