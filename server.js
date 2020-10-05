@@ -30,9 +30,12 @@ app.set('view engine', 'pug');
 myDB(async client => {
   const myDataBase = await client.db("test").collection("users");
 
+  var username = req.user.username;
+
   app.route("/").get((req, res) => {
     res.render('pug', {
       showLogin: true,
+      username: username,
       title: "Connected to Database",
       message: "Please Login"
     });
@@ -44,6 +47,7 @@ myDB(async client => {
     }
     res.redirect('/');
   };
+
 
   app.post("/login", passport.authenticate("local", {failureRedirect: "/"}), (req, res) => {
     res.redirect("/profile");
