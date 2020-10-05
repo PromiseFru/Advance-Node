@@ -30,9 +30,9 @@ app.set('view engine', 'pug');
 myDB(async client => {
   const myDataBase = await client.db("test").collection("users");
 
-  var username = req.user.username;
-
   app.route("/").get((req, res) => {
+    var username = req.user.username;
+
     res.render('pug', {
       showLogin: true,
       username: username,
