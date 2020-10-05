@@ -31,11 +31,8 @@ myDB(async client => {
   const myDataBase = await client.db("test").collection("users");
 
   app.route("/").get((req, res) => {
-    var username = req.user.username;
-
     res.render('pug', {
       showLogin: true,
-      username: username,
       title: "Connected to Database",
       message: "Please Login"
     });
@@ -54,7 +51,11 @@ myDB(async client => {
   })
 
   app.get("/profile", ensureAuthenticated, (req, res) => {
-    res.render(__dirname + "views/pug/profile");
+    var username = req.user.username;
+
+    res.render(__dirname + "views/pug/profile",{
+      username: username,
+    });
   })
 
   passport.serializeUser((user, done) => {
