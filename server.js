@@ -51,10 +51,8 @@ myDB(async client => {
   })
 
   app.get("/profile", ensureAuthenticated, (req, res) => {
-    var username = req.user.username;
-
     res.render(__dirname + "views/pug/profile",{
-      username: username,
+      username: req.user.username,
     });
   })
 
