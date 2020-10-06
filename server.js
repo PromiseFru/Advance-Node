@@ -5,10 +5,8 @@ const myDB = require('./connection');
 const fccTesting = require("./freeCodeCamp/fcctesting.js");
 var session = require('express-session');
 var passport = require('passport');
-var ObjectID = require("mongodb").ObjectID;
-var LocalStrategy = require('passport-local');
-var bcrypt = require('bcrypt');
 var routes = require('./routes');
+var auth = require('./auth');
 
 const app = express();
 
@@ -44,38 +42,7 @@ myDB(async client => {
       .send('Not Found')
   })
 
-  passport.serializeUser((user, done) => {
-    done(null, user._id);
-  });
-
-  passport.deserializeUser((id, done) => {
-    myDataBase.findOne({
-      _id: new ObjectID(id)
-    }, (err, doc) => {
-      done(null, doc);
-    });
-  });
-
-  passport.use(new LocalStrategy(
-    function (username, password, done) {
-      myDataBase.findOne({
-        username: username
-      }, function (err, user) {
-        console.log('User ' + username + ' attempted to log in.');
-        if (err) {
-          return done(err);
-        }
-        if (!user) {
-          return done(null, false);
-        }
-        if (!bcrypt.compareSync(password, user.password)) {
-          return done(null, false);
-        }
-        return done(null, user);
-      });
-    }
-  ));
-
+  auth(app, myDataBase);
 }).catch(err => {
   app.route("/").get((req, res) => {
     res.render("pug", {
