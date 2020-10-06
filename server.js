@@ -64,7 +64,7 @@ myDB(async client => {
   })
 
   app.route('/register').post((req, res, next) => {
-    const hash = bcyrpt.hashSync(req.body.password, 12)
+    const hash = bcrypt.hashSync(req.body.password, 12)
     myDataBase.findOne({ username: req.body.username }, (err, user) => {
       if(err) {
         next(err);
@@ -109,7 +109,7 @@ myDB(async client => {
         console.log('User '+ username +' attempted to log in.');
         if (err) { return done(err); }
         if (!user) { return done(null, false); }
-        if (!bcyrpt.compareSync(password, user.password)) { return done(null, false); }
+        if (!bcrypt.compareSync(password, user.password)) { return done(null, false); }
         return done(null, user);
       });
     }
