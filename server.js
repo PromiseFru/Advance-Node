@@ -33,6 +33,7 @@ myDB(async client => {
   app.route("/").get((req, res) => {
     res.render('pug', {
       showLogin: true,
+      shoeRegistration: true,
       title: "Connected to Database",
       message: "Please Login"
     });
@@ -59,6 +60,29 @@ myDB(async client => {
   app.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/');
+  })
+
+  app.post('/register', (req, res, next) => {
+    myDataBase.findOne({ username: req.body.username }, (err, user) => {
+      if(err) {
+        next(err);
+      } else if(user){
+        req.redirect('/');
+      }else {
+        myDataBase.insertOne({
+          username: req.body.username,
+          password: req.body.password
+        }, (err, doc) => {
+          if(err){
+            res.redirect('/');
+          } else {
+            next(null, doc.ops[0]);
+          }
+        })
+      }
+    }, passport.authenticate('local', {failureRedirect: '/'}), (req, res, next) => {
+      res.redirect('/profile');
+    })
   })
 
   app.use((req, res, next) => {
