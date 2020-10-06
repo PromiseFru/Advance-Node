@@ -62,7 +62,7 @@ myDB(async client => {
     res.redirect('/');
   })
 
-  app.post('/register', (req, res, next) => {
+  app.route('/register').post((req, res, next) => {
     myDataBase.findOne({ username: req.body.username }, (err, user) => {
       if(err) {
         next(err);
