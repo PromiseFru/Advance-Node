@@ -1,3 +1,6 @@
+var bcrypt = require('bcrypt');
+var passport = require('passport');
+
 module.exports = function (app, myDataBase) {
     app.route("/").get((req, res) => {
         res.render('pug', {
