@@ -3,7 +3,7 @@ var ObjectID = require("mongodb").ObjectID;
 var LocalStrategy = require('passport-local');
 var passport = require('passport');
 var session = require('express-session');
-var GithubStrategy = require('passport-github').Strategy;
+var GitHubStrategy = require('passport-github').Strategy;
 
 module.exports = function (app, myDataBase) {
     app.use(session({
