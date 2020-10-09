@@ -6,6 +6,7 @@ module.exports = function (app, myDataBase) {
         res.render('pug', {
             showLogin: true,
             showRegistration: true,
+            showSocialAuth: true,
             title: "Connected to Database",
             message: "Please Login"
         });
