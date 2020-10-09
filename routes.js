@@ -64,11 +64,8 @@ module.exports = function (app, myDataBase) {
         })
     })
 
-    app.get('/auth/github', (req, res) => {
-
-    })
-
-    app.get('/auth/github/callback', (req, res) => {
-
-    })
+    app.get('/auth/github', passport.authenticate('github'));
+    app.get('/auth/github/callback', passport.authenticate('github', {failureRedirect: '/'}), (req, res) => {
+        res.redirect('/profile');
+    });
 }
