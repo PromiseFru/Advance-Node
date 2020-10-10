@@ -5,6 +5,8 @@ const myDB = require('./connection');
 const fccTesting = require("./freeCodeCamp/fcctesting.js");
 var routes = require('./routes');
 var auth = require('./auth');
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 
 const app = express();
 
@@ -38,6 +40,6 @@ myDB(async client => {
   });
 });
 
-app.listen(process.env.PORT || 3000, () => {
+http.listen(process.env.PORT || 3000, () => {
   console.log("Listening on port " + process.env.PORT);
 });
