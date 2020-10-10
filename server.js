@@ -40,11 +40,6 @@ myDB(async client => {
     ++currentUsers;
     io.emit('user count', currentUsers);
   });
-
-  socket.on('user count', function (data) {
-    console.log(data);
-  });
-
 }).catch(err => {
   app.route("/").get((req, res) => {
     res.render("pug", {
