@@ -5,11 +5,8 @@ const myDB = require('./connection');
 const fccTesting = require("./freeCodeCamp/fcctesting.js");
 var routes = require('./routes');
 var auth = require('./auth');
-const io = require('socket.io')(http);
 
 const app = express();
-
-const http = require('http').createServer(app);
 
 fccTesting(app); //For FCC testing purposes
 app.use("/public", express.static(process.cwd() + "/public"));
@@ -17,6 +14,9 @@ app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
+
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 
 app.set('view engine', 'pug');
 
