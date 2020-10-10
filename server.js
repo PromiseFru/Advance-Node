@@ -5,10 +5,11 @@ const myDB = require('./connection');
 const fccTesting = require("./freeCodeCamp/fcctesting.js");
 var routes = require('./routes');
 var auth = require('./auth');
-const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
 const app = express();
+
+const http = require('http').createServer(app);
 
 fccTesting(app); //For FCC testing purposes
 app.use("/public", express.static(process.cwd() + "/public"));
@@ -35,7 +36,7 @@ myDB(async client => {
   io.on('connection', socket => {
     console.log('A user has connected');
   });
-  
+
 }).catch(err => {
   app.route("/").get((req, res) => {
     res.render("pug", {
