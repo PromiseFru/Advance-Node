@@ -62,10 +62,17 @@ module.exports = function (app, myDataBase) {
         }), (req, res, next) => {
             res.redirect('/profile');
         })
+    });
+
+    app.get('/chat', ensureAuthenticated, (req, res) => {
+        res.render(__dirname + 'views/pug/chat', {
+            user: req.user
+        })
     })
 
     app.get('/auth/github', passport.authenticate('github'));
     app.route('/auth/github/callback').get(passport.authenticate('github', {failureRedirect: '/'}), (req, res) => {
-        res.redirect('/profile');
+        req.session.user_id = req.user.id;
+        res.redirect('/chat');
     });
 }
