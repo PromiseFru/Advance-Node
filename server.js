@@ -31,6 +31,11 @@ myDB(async client => {
   })
 
   auth(app, myDataBase);
+
+  io.on('connection', socket => {
+    console.log('A user has connected');
+  });
+  
 }).catch(err => {
   app.route("/").get((req, res) => {
     res.render("pug", {
